@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .passed {
+            color: green;
+        }
+        .failed {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Application Checklist</h1>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <script>
+        // Fetch checklist results from the API
+        fetch('/api/application')
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                data.forEach(item => {
+                    const resultElement = document.createElement('div');
+                    resultElement.textContent = `${item.rule}: ${item.status}`;
+                    resultElement.classList.add(item.status.toLowerCase());
+                    resultsDiv.appendChild(resultElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
